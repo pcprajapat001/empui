@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   Switch,
@@ -20,6 +20,7 @@ export const Addemp = () => {
   const [IsActive, setIsActive] = useState(false);
   const [update, setUpdate] = useState(false);
   const [_id, set_id] = useState("");
+  const [vali, setVali] = useState(false);
 
   const handleEmployee = async () => {
     if (update === true) {
@@ -76,6 +77,18 @@ export const Addemp = () => {
     setCity("");
     setMobile("");
   };
+
+  useEffect(() => {
+    setVali(
+      fname !== "" &&
+        lname !== "" &&
+        city !== "" &&
+        email !== "" &&
+        empid.length === 5 &&
+        mobile.length === 10
+    );
+  }, [empid, fname, lname, city, mobile, email]);
+
   return (
     <div>
       <Card>
@@ -151,7 +164,12 @@ export const Addemp = () => {
               />
             </Grid>
             <Grid item xs={3}>
-              <Button onClick={handleEmployee} variant="contained" fullWidth>
+              <Button
+                disabled={!vali}
+                onClick={handleEmployee}
+                variant="contained"
+                fullWidth
+              >
                 {update ? "update" : "submit"}
               </Button>
             </Grid>

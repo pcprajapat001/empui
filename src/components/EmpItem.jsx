@@ -1,8 +1,14 @@
 import React from "react";
 import { Grid, Button } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const EmpItem = ({ item, handleUpdate }) => {
+  const navigate = useNavigate();
+
+  const handleDetail = (item) => {
+    navigate("/empdetail", { state: item });
+  };
   const handleDelete = async (_id) => {
     const url = "http://localhost:2888/empdel";
     const payload = { _id };
@@ -17,7 +23,12 @@ export const EmpItem = ({ item, handleUpdate }) => {
       <Grid item xs={1}>
         {item.empid}
       </Grid>
-      <Grid item xs={2}>
+      <Grid
+        item
+        xs={2}
+        onClick={() => handleDetail(item)}
+        sx={{ cursor: "pointer" }}
+      >
         {` ${item.fname.toUpperCase()} ${item.lname.toUpperCase()}`}
       </Grid>
       <Grid item xs={2}>
