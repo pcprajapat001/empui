@@ -20,7 +20,7 @@ export const EmpDetail = () => {
                 />
               </Grid>
               <Grid item xs={6}>
-                <h1>{`${data.fname.toUpperCase()} ${data.lname.toUpperCase()}  `}</h1>
+                <h1>{`${data.fname.toUpperCase()} ${data.lname.toUpperCase()}`}</h1>
                 <h3>{data.email}</h3>
                 <h3>{data.mobile}</h3>
                 <p>
@@ -30,6 +30,19 @@ export const EmpDetail = () => {
                   alias facere nobis possimus! Aperiam tempora qui eaque maxime
                   et, repellendus eligendi omnis delectus natus facilis
                 </p>
+              </Grid>
+              <Grid item xs={3} align="center">
+                <div
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "50%",
+                    backgroundColor: data.IsActive ? "green" : "red",
+                  }}
+                ></div>
+
+                <h3>{data.IsActive ? "Active" : "De-Active"}</h3>
+                <h1>{data.empid}</h1>
               </Grid>
             </Grid>
           </CardContent>

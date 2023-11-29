@@ -3,7 +3,7 @@ import { Grid, Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export const EmpItem = ({ item, handleUpdate }) => {
+export const EmpItem = ({ setShow, item, handleUpdate }) => {
   const navigate = useNavigate();
 
   const handleDetail = (item) => {
@@ -12,9 +12,14 @@ export const EmpItem = ({ item, handleUpdate }) => {
   const handleDelete = async (_id) => {
     const url = "http://localhost:2888/empdel";
     const payload = { _id };
+
     if (window.confirm("Are you sure..")) {
       const result = await axios.post(url, payload);
       console.log(result.data, "emp delete");
+      setShow(result.data);
+      setTimeout(() => {
+        window.location.reload(false);
+      }, 2000);
     }
   };
 

@@ -1,21 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Card, CardContent } from "@mui/material";
+import { Grid, Card, CardContent, Button } from "@mui/material";
 import axios from "axios";
 import { EmpItem } from "./EmpItem";
+import { useNavigate } from "react-router-dom";
 
-export const EmpList = ({handleUpdate}) => {
+export const EmpList = ({ handleUpdate, setShow }) => {
   const [data, setData] = useState([]);
+  const [pagi, setPagi] = useState(4);
+  const navigate= useNavigate()
 
   const getApi = async () => {
     const result = await axios.get("http://localhost:2888/empall");
     setData(result.data);
   };
 
-
-
   useEffect(() => {
     getApi();
   }, []);
+
+  const handleprevious = () => {
+    if (pagi > 5) {
+      setPagi(pagi - 4);
+    }
+  };
+  const handleNext = () => {
+    if (pagi < data.length) {
+      setPagi(pagi + 4);
+    }
+  };
+
   return (
     <Grid container spacing={2} align="center">
       <Grid item xs={12}>
@@ -47,17 +60,49 @@ export const EmpList = ({handleUpdate}) => {
         </Card>
       </Grid>
 
-      {data.map((item) => {
+      {data.slice(pagi - 4, pagi).map((item) => {
         return (
           <Grid item xs={12}>
             <Card>
               <CardContent>
-                <EmpItem handleUpdate={handleUpdate} item={item} />
+                <EmpItem
+                  setShow={setShow}
+                  handleUpdate={handleUpdate}
+                  item={item}
+                />
               </CardContent>
             </Card>
           </Grid>
         );
       })}
+
+      <Grid item xs={2}>
+        <Button
+          style={{ display: pagi <= 5 ? "none" : "block" }}
+          onClick={handleprevious}
+          variant="contained"
+          fullWidth
+        >
+          previouse
+        </Button>
+      </Grid>
+      <Grid item xs={2}></Grid>
+      <Grid item xs={4}>
+        <Button onClick={()=>navigate("/dashboard",{state:data})} variant="contained" fullWidth color="warning">
+        Dashboard
+        </Button>
+      </Grid>
+      <Grid item xs={2}></Grid>
+      <Grid item xs={2}>
+        <Button
+          style={{ display: pagi >= data.length ? "none" : "block" }}
+          onClick={handleNext}
+          variant="contained"
+          fullWidth
+        >
+          Next
+        </Button>
+      </Grid>
     </Grid>
   );
 };

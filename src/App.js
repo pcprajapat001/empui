@@ -3,6 +3,7 @@ import "./App.css";
 import { Addemp } from "./components/Addemp";
 import { EmpList } from "./components/EmpList";
 import { Landing } from "./components/Landing";
+import "./components/common.css"
 
 function App() {
   return (
